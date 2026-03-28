@@ -1,0 +1,21 @@
+configuration:
+  device_name:
+    name: Device Name
+    description: >-
+      A friendly name for this device. If left empty, the system hostname is used.
+      This name appears in the Beacon dashboard and BeaconInfra cloud.
+  api_key:
+    name: API Key
+    description: >-
+      Your BeaconInfra API key (starts with usr_). Leave empty to run Beacon
+      in fully offline mode with no cloud connectivity or telemetry.
+  heartbeat_interval:
+    name: Heartbeat Interval
+    description: >-
+      How often (in seconds) Beacon sends heartbeats to the BeaconInfra cloud.
+      Only applies when an API key is configured. Range: 10-300.
+  metrics_port:
+    name: Metrics Port
+    description: >-
+      The port Beacon's local dashboard and metrics API listens on.
+      This must match the ingress_port in the add-on config. Default: 9100.

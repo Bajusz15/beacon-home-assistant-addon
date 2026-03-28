@@ -1,0 +1,37 @@
+name: "Beacon"
+version: "0.4.1"
+slug: "beacon"
+description: "Lightweight monitoring, alerting, and secure remote access agent for Home Assistant. Optional BeaconInfra cloud for multi-device dashboard and tunnel."
+url: "https://beaconinfra.dev"
+arch:
+  - aarch64
+  - armv7
+  - amd64
+
+# Ingress: embed Beacon's local dashboard in the HA sidebar
+ingress: true
+ingress_port: 9100
+
+# Permissions
+homeassistant_api: false
+hassio_api: false
+host_network: false
+privileged: false
+
+# Persistent storage for Beacon's config and state
+map:
+  - type: data
+    read_only: false
+
+# User-configurable options (rendered as a form in the HA UI)
+options:
+  device_name: ""
+  api_key: ""
+  heartbeat_interval: 30
+  metrics_port: 9100
+
+schema:
+  device_name: str?
+  api_key: password?
+  heartbeat_interval: "int(10,300)?"
+  metrics_port: port?
