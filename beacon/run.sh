@@ -15,6 +15,8 @@ METRICS_PORT=${METRICS_PORT:-9100}
 # ── Beacon home directory ────────────────────────────────────────────────────
 # /data is the persistent volume for this add-on.
 # BEACON_HOME is used directly as the base dir by beacon (not $BEACON_HOME/.beacon).
+# HOME must also be set — beacon uses os.UserHomeDir() as a fallback in some code paths.
+export HOME="/data"
 export BEACON_HOME="/data/beacon"
 mkdir -p "${BEACON_HOME}/config/projects/home-assistant"
 mkdir -p "${BEACON_HOME}/state"
