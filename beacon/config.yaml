@@ -18,11 +18,6 @@ hassio_api: false
 host_network: false
 privileged: false
 
-# Persistent storage for Beacon's config and state
-map:
-  - type: data
-    read_only: false
-
 # User-configurable options (rendered as a form in the HA UI)
 options:
   device_name: ""

@@ -38,6 +38,27 @@ After starting the add-on, click **Open Web UI** in the add-on info page (or use
 
 The dashboard is also available as a Prometheus metrics endpoint at `/metrics` for integration with Grafana or other tools.
 
+### How Ingress Works
+
+The Beacon dashboard is exposed inside Home Assistant via **Ingress** — HA proxies
+authenticated requests to the add-on's internal HTTP server. This is configured in the
+add-on's `config.yaml`:
+
+```yaml
+ingress: true
+ingress_port: 9100
+```
+
+- `ingress: true` tells HA to proxy the add-on's web UI through the HA frontend
+  (no extra ports need to be opened on your network).
+- `ingress_port: 9100` is the port Beacon's dashboard listens on inside the container.
+  This must match the `metrics_port` option. If you change `metrics_port`, update
+  `ingress_port` to match.
+
+Internally, the add-on sets `metrics_listen_addr: "0.0.0.0"` so the HA Supervisor can
+reach the dashboard from outside the container's network namespace. This is handled
+automatically — no user configuration needed.
+
 ## Monitoring Projects
 
 Beacon comes pre-configured with a Home Assistant health check that pings `http://homeassistant:8123/api/` every 30 seconds.
