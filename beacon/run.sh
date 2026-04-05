@@ -53,7 +53,7 @@ if [ ! -f "${BEACON_HOME}/config/projects/home-assistant/monitor.yml" ]; then
 checks:
   - name: "ha_http"
     type: http
-    url: "http://homeassistant:8123/api/"
+    url: "http://homeassistant:8123/manifest.json"
     interval: 30s
     timeout: 10s
 EOF
