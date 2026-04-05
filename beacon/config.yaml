@@ -7,6 +7,9 @@ arch:
   - aarch64
   - amd64
 
+# S6 overlay must be PID 1 — disable Docker's built-in init wrapper
+init: false
+
 # Ingress: embed Beacon's local dashboard in the HA sidebar
 ingress: true
 ingress_port: 9100
