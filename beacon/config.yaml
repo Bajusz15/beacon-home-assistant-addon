@@ -5,18 +5,11 @@ description: "Lightweight monitoring, alerting, and secure remote access agent f
 url: "https://beaconinfra.dev"
 arch:
   - aarch64
-  - armv7
   - amd64
 
 # Ingress: embed Beacon's local dashboard in the HA sidebar
 ingress: true
 ingress_port: 9100
-
-# Permissions
-homeassistant_api: false
-hassio_api: false
-host_network: false
-privileged: false
 
 # User-configurable options (rendered as a form in the HA UI)
 options:

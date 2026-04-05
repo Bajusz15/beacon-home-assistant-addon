@@ -11,7 +11,7 @@ WORKDIR /build
 RUN apk add --no-cache git ca-certificates
 
 # Clone beacon at the pinned release tag
-RUN git clone --depth 1 --branch v0.4.1-master-cloud-login \
+RUN git clone --depth 1 --branch v0.4.2-master-cloud-login \
     https://github.com/Bajusz15/beacon.git .
 
 # Map HA's BUILD_ARCH to Go's GOARCH/GOARM and build
@@ -24,7 +24,7 @@ RUN case "${BUILD_ARCH}" in \
     CGO_ENABLED=0 GOOS=linux GOARCH="${GOARCH}" GOARM="${GOARM}" \
     go build \
       -ldflags="-s -w \
-        -X beacon/internal/version.Version=v0.4.1 \
+        -X beacon/internal/version.Version=v0.4.2 \
         -X beacon/internal/cloud.DefaultBeaconInfraAPIURL=https://beaconinfra.dev/api" \
       -o /beacon ./cmd/beacon
 
@@ -32,9 +32,9 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.4.1" \
+  io.hass.version="0.4.2" \
   io.hass.type="addon" \
-  io.hass.arch="aarch64|armv7|amd64"
+  io.hass.arch="aarch64|amd64"
 
 # Install minimal runtime deps
 RUN apk add --no-cache ca-certificates tzdata jq bash
