@@ -1,5 +1,5 @@
 name: "Beacon"
-version: "0.4.1"
+version: "0.4.2"
 slug: "beacon"
 description: "Lightweight monitoring, alerting, and secure remote access agent for Home Assistant. Optional BeaconInfra cloud for multi-device dashboard and tunnel."
 url: "https://beaconinfra.dev"
