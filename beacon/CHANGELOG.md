@@ -1,3 +1,7 @@
+## 0.4.4
+
+- Fix crash loop: `beacon master` has no `--foreground` flag; run it directly
+
 ## 0.4.3
 
 - Fix `s6-overlay-suexec: can only run as pid 1` crash loop

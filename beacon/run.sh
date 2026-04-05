@@ -62,4 +62,4 @@ fi
 # ── Start Beacon master ──────────────────────────────────────────────────────
 bashio::log.info "Starting Beacon master (device: ${DEVICE_NAME}, cloud: $([ -n "${API_KEY}" ] && echo "enabled" || echo "offline"))"
 
-exec beacon master --foreground
+exec beacon master
