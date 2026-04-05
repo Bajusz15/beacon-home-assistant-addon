@@ -1,3 +1,8 @@
+## 0.4.5
+
+- Fix "Connection lost" in Ingress dashboard: use relative fetch path
+- Bump beacon to v0.5.2-tunnel-homeassistant
+
 ## 0.4.4
 
 - Fix crash loop: `beacon master` has no `--foreground` flag; run it directly
