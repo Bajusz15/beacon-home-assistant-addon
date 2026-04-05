@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bashio
+#!/command/with-contenv bashio
 
 # ── Read options ────────────────────────────────────────────────────────────
 DEVICE_NAME=$(bashio::config 'device_name')

@@ -32,7 +32,7 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.4.2" \
+  io.hass.version="0.4.3" \
   io.hass.type="addon" \
   io.hass.arch="aarch64|amd64"
 
@@ -41,6 +41,5 @@ RUN apk add --no-cache ca-certificates tzdata jq bash
 
 COPY --from=builder /beacon /usr/local/bin/beacon
 COPY run.sh /run.sh
-RUN chmod +x /run.sh
-
-CMD ["/run.sh"]
+COPY rootfs /
+RUN chmod +x /run.sh /etc/s6-overlay/s6-rc.d/beacon/run

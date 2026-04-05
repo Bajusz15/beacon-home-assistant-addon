@@ -1,0 +1,6 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# S6 longrun entrypoint for the Beacon add-on.
+# Delegates to /run.sh which reads add-on options and execs `beacon master`.
+# ==============================================================================
+exec /run.sh

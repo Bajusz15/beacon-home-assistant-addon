@@ -1,3 +1,9 @@
+## 0.4.3
+
+- Fix `s6-overlay-suexec: can only run as pid 1` crash loop
+- Migrate to S6 v3 longrun service pattern (`/command/with-contenv` shebang)
+- Run beacon via S6 service instead of Docker CMD
+
 ## 0.4.2
 
 - Fix add-on not appearing in HA store (invalid map and build.yaml formats)
