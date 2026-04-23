@@ -32,12 +32,14 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.4.5" \
+  io.hass.version="0.4.6" \
   io.hass.type="addon" \
   io.hass.arch="aarch64|amd64"
 
-# Install minimal runtime deps
-RUN apk add --no-cache ca-certificates tzdata jq bash
+# Install minimal runtime deps. `yq` (mikefarah's Go yq) is used by run.sh to
+# merge Supervisor options into /data/beacon/config.yaml without clobbering
+# user-edited sections like `tunnels:`.
+RUN apk add --no-cache ca-certificates tzdata jq bash yq
 
 COPY --from=builder /beacon /usr/local/bin/beacon
 COPY run.sh /run.sh

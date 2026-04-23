@@ -27,6 +27,8 @@ Without an API key, Beacon runs fully offline with zero cloud connectivity or te
 | `api_key` | password | _(empty)_ | BeaconInfra API key (`usr_...`). Leave empty for offline mode |
 | `heartbeat_interval` | integer | `30` | Seconds between cloud heartbeats (10-300). Only used when API key is set |
 | `metrics_port` | port | `9100` | Port for the local dashboard and metrics API |
+| `tunnel_home_assistant` | bool | `false` | When `true`, auto-add a BeaconInfra tunnel entry pointing at HA Core (`http://homeassistant:8123`). Requires an `api_key`. See [Tunnel / Remote Access](#tunnel--remote-access). |
+| `log_level` | list | `info` | Log verbosity: `debug`, `info`, `warn`, or `error` |
 
 ## Accessing the Dashboard
 
@@ -61,7 +63,7 @@ automatically — no user configuration needed.
 
 ## Monitoring Projects
 
-Beacon comes pre-configured with a Home Assistant health check that pings `http://homeassistant:8123/api/` every 30 seconds.
+Beacon comes pre-configured with a Home Assistant health check that pings `http://homeassistant:8123/manifest.json` every 30 seconds (unauthenticated endpoint, always available).
 
 ### Adding Custom Projects
 
@@ -127,9 +129,46 @@ See the [Beacon documentation](https://beaconinfra.dev) for the full alert confi
 
 ## Tunnel / Remote Access
 
-With a BeaconInfra API key, Beacon can establish secure reverse tunnels to your Home Assistant instance. This provides remote access without exposing ports or configuring a VPN.
+With a BeaconInfra API key, Beacon can establish secure reverse tunnels to upstream services — most commonly **Home Assistant Core itself**, so you can reach your HA UI remotely without exposing ports, VPNs, or DynDNS.
 
 Visit [beaconinfra.dev](https://beaconinfra.dev) to create an account and get your API key.
+
+> **Ingress vs tunnel** — these do different things and are not interchangeable:
+> - **Ingress** (always on) embeds *Beacon's own dashboard* in the HA sidebar. It does not expose Home Assistant itself.
+> - **Tunnel** (opt-in, requires an API key) exposes an arbitrary upstream — typically HA Core on `homeassistant:8123` — through BeaconInfra so you can reach it from the internet.
+
+### Quick-start: tunnel to Home Assistant Core
+
+Set the `tunnel_home_assistant` option to `true` in the add-on options and restart. On startup, Beacon will ensure the following entry exists in `/data/beacon/config.yaml` (without touching any other tunnels you have defined):
+
+```yaml
+tunnels:
+  - id: homeassistant
+    upstream:
+      protocol: http
+      host: homeassistant
+      port: 8123
+```
+
+Toggling the option back to `false` does **not** remove the entry — the add-on only adds, never deletes, so you can freely edit the file afterwards.
+
+### Defining tunnels manually
+
+You can edit `/data/beacon/config.yaml` directly (e.g. via the File Editor add-on) and add a `tunnels:` block with any number of entries. It will be preserved across restarts — the add-on merges Supervisor options into the file but never overwrites sections it doesn't manage.
+
+```yaml
+tunnels:
+  - id: homeassistant
+    upstream:
+      protocol: http
+      host: homeassistant
+      port: 8123
+  - id: nas-ui
+    upstream:
+      protocol: http
+      host: 192.168.1.50
+      port: 5000
+```
 
 ## Offline Mode
 
@@ -144,9 +183,30 @@ If no `api_key` is configured, Beacon runs in fully offline mode:
 
 All Beacon data is stored under `/data/beacon/` which persists across add-on restarts and updates:
 
-- `config.yaml` — main Beacon configuration (regenerated on each start from HA options)
+- `config.yaml` — main Beacon configuration (see [Config merge behavior](#config-merge-behavior))
 - `config/projects/` — project monitoring configs (preserved across restarts)
 - `state/` — check state, log cursors
 - `logs/` — project-specific logs
 
 The default Home Assistant health check config is only written if it doesn't already exist, so your customizations are preserved.
+
+### Config merge behavior
+
+On first start, the add-on **seeds** `/data/beacon/config.yaml` with defaults derived from the Supervisor options. On every subsequent start, it **merges** the Supervisor-managed keys into the existing file rather than overwriting it.
+
+Keys managed by the add-on (always overlaid from options on each restart):
+
+- `device_name`
+- `heartbeat_interval`
+- `metrics_port`
+- `metrics_listen_addr`
+- `api_key` and `cloud_reporting_enabled` (only when `api_key` option is set)
+- `log_level` (only when the option is set)
+
+Everything else in `config.yaml` is **preserved** across restarts, including:
+
+- `tunnels:` — add/edit freely, the add-on will not touch it (except to add the preset entry when `tunnel_home_assistant: true`)
+- `projects:` — seeded on first start, then preserved so you can add your own
+- `system_metrics:` — seeded on first start, then preserved so you can tweak it
+
+If you want to reset to defaults, delete `/data/beacon/config.yaml` and restart the add-on — it will be re-seeded from the current Supervisor options.

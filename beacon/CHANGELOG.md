@@ -1,3 +1,10 @@
+## 0.4.6
+
+- Preserve user edits in `/data/beacon/config.yaml` across restarts: the add-on now deep-merges Supervisor options into the file instead of overwriting it. Manually added `tunnels:` and custom `projects:` entries are no longer wiped.
+- New option `tunnel_home_assistant` (default `false`): when enabled, auto-adds a BeaconInfra tunnel entry pointing at `homeassistant:8123` so HA Core can be reached remotely without VPN or port-forwarding. Toggling off does not remove existing entries.
+- New option `log_level` (`debug|info|warn|error`, default `info`): overlaid into config on each start.
+- Install `yq` in the image for the merge logic.
+
 ## 0.4.5
 
 - Fix "Connection lost" in Ingress dashboard: use relative fetch path
