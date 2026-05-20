@@ -1,10 +1,11 @@
 name: "Beacon"
-version: "0.4.6"
+version: "0.5.2"
 slug: "beacon"
 description: "Lightweight monitoring, alerting, and secure remote access agent for Home Assistant. Optional BeaconInfra cloud for multi-device dashboard and tunnel."
 url: "https://beaconinfra.dev"
 arch:
   - aarch64
+  - armv7
   - amd64
 
 # S6 overlay must be PID 1 — disable Docker's built-in init wrapper

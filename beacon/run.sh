@@ -75,6 +75,8 @@ trap 'rm -f "${OVERLAY_FILE}"' EXIT
   if [ -n "${API_KEY}" ]; then
     echo "cloud_reporting_enabled: true"
     echo "api_key: \"${API_KEY}\""
+  else
+    echo "cloud_reporting_enabled: false"
   fi
   if [ -n "${LOG_LEVEL}" ]; then
     echo "log_level: \"${LOG_LEVEL}\""
@@ -85,6 +87,12 @@ trap 'rm -f "${OVERLAY_FILE}"' EXIT
 # where the right-hand side wins on scalars and maps, while keys present only in
 # the base (tunnels, projects, ...) are preserved.
 yq -i ". *= load(\"${OVERLAY_FILE}\")" "${CONFIG_FILE}"
+
+# If the user clears the Supervisor API key option, remove any previously
+# persisted secret so the add-on really returns to offline mode.
+if [ -z "${API_KEY}" ]; then
+  yq -i 'del(.api_key)' "${CONFIG_FILE}"
+fi
 
 # ── Optional preset: auto-tunnel to Home Assistant Core ─────────────────────
 # When enabled, ensure a tunnels[] entry with id=homeassistant exists, without

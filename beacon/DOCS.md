@@ -13,6 +13,14 @@ Without an API key, Beacon runs fully offline with zero cloud connectivity or te
 
 ## Installation
 
+### BeaconInfra guided setup
+
+For the smoothest cloud setup, open **HA Setup** in the BeaconInfra dashboard.
+The page creates an API key, shows the add-on repository URL, and polls until
+the Home Assistant device sends its first heartbeat.
+
+### Manual setup
+
 1. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**
 2. Click the **...** menu (top right) > **Repositories**
 3. Add: `https://github.com/Bajusz15/beacon-home-assistant-addon`

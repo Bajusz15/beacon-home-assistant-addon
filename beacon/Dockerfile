@@ -32,9 +32,9 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.4.6" \
+  io.hass.version="0.5.2" \
   io.hass.type="addon" \
-  io.hass.arch="aarch64|amd64"
+  io.hass.arch="aarch64|armv7|amd64"
 
 # Install minimal runtime deps. `yq` (mikefarah's Go yq) is used by run.sh to
 # merge Supervisor options into /data/beacon/config.yaml without clobbering

@@ -13,6 +13,14 @@ Lightweight monitoring, alerting, and secure remote access agent for Home Assist
 
 ## Installation
 
+### BeaconInfra guided setup
+
+If you are connecting Home Assistant to BeaconInfra, open **HA Setup** in the
+BeaconInfra dashboard first. It creates the API key, gives you the repository
+URL, and watches for the first heartbeat after you start the add-on.
+
+### Manual setup
+
 1. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**
 2. Click **...** (top right) > **Repositories**
 3. Add this repository URL:
@@ -21,6 +29,9 @@ Lightweight monitoring, alerting, and secure remote access agent for Home Assist
    ```
 4. Find **Beacon** in the store and click **Install**
 5. Configure your options and click **Start**
+
+For cloud mode, paste the full BeaconInfra API key into `api_key`. To expose
+Home Assistant remotely through BeaconInfra, enable `tunnel_home_assistant`.
 
 ## Configuration
 

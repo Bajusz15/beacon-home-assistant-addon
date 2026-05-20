@@ -19,3 +19,13 @@ configuration:
     description: >-
       The port Beacon's local dashboard and metrics API listens on.
       This must match the ingress_port in the add-on config. Default: 9100.
+  tunnel_home_assistant:
+    name: Tunnel Home Assistant
+    description: >-
+      When enabled, Beacon adds a secure BeaconInfra tunnel to Home Assistant
+      Core at http://homeassistant:8123. Requires an API key.
+  log_level:
+    name: Log Level
+    description: >-
+      Controls Beacon's add-on log verbosity. Use info for normal operation and
+      debug when troubleshooting setup or tunnel issues.
