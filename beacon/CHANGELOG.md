@@ -1,3 +1,22 @@
+## 0.5.4
+
+- Build Beacon from the current `main` branch so the add-on includes upstream tunnel support.
+- Fix Home Assistant tunnel startup when `tunnel_home_assistant` writes the newer `upstream:` tunnel config shape.
+- Stamp the bundled Beacon binary and Home Assistant add-on image as `v0.5.4`.
+
+## 0.5.3
+
+- Run `beacon master` in foreground mode under Home Assistant Supervisor.
+- Fix the add-on restart loop where Beacon daemonized, the wrapper exited, and s6 restarted the service repeatedly.
+- Remove misleading detached-mode startup behavior such as `pid -1` in add-on logs.
+
+## 0.5.2
+
+- Add guided Home Assistant setup alignment for BeaconInfra onboarding.
+- Preserve cloud/offline behavior when the Supervisor API key option is cleared.
+- Add `armv7` build support for Raspberry Pi class Home Assistant OS installs.
+- Add translations for `tunnel_home_assistant` and `log_level` add-on options.
+
 ## 0.4.6
 
 - Preserve user edits in `/data/beacon/config.yaml` across restarts: the add-on now deep-merges Supervisor options into the file instead of overwriting it. Manually added `tunnels:` and custom `projects:` entries are no longer wiped.

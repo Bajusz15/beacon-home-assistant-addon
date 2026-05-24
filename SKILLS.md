@@ -1,0 +1,1 @@
+Whenever you make changes, append to CHANGELOG.md and bump the version.

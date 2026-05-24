@@ -102,7 +102,10 @@ if bashio::var.true "${TUNNEL_HA}"; then
   HAS_HA_TUNNEL=$(yq '[.tunnels // [] | .[] | select(.id == "homeassistant")] | length' "${CONFIG_FILE}")
   if [ "${HAS_HA_TUNNEL}" = "0" ]; then
     bashio::log.info "Adding 'homeassistant' tunnel preset to ${CONFIG_FILE}"
-    yq -i '.tunnels = ((.tunnels // []) + [{"id":"homeassistant","upstream":{"protocol":"http","host":"homeassistant","port":8123}}])' "${CONFIG_FILE}"
+    yq -i '.tunnels = ((.tunnels // []) + [{"id":"homeassistant","local_port":8123,"upstream":{"protocol":"http","host":"homeassistant","port":8123}}])' "${CONFIG_FILE}"
+  else
+    bashio::log.info "Refreshing 'homeassistant' tunnel preset in ${CONFIG_FILE}"
+    yq -i '(.tunnels[] | select(.id == "homeassistant")) *= {"local_port":8123,"upstream":{"protocol":"http","host":"homeassistant","port":8123},"enabled":true}' "${CONFIG_FILE}"
   fi
 fi
 
