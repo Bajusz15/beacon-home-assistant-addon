@@ -10,8 +10,8 @@ WORKDIR /build
 
 RUN apk add --no-cache git ca-certificates
 
-# Clone beacon at the pinned release tag
-RUN git clone --depth 1 --branch v0.5.2-tunnel-homeassistant \
+# Clone beacon with upstream tunnel support for Home Assistant add-ons.
+RUN git clone --depth 1 --branch main \
     https://github.com/Bajusz15/beacon.git .
 
 # Map HA's BUILD_ARCH to Go's GOARCH/GOARM and build
@@ -24,7 +24,7 @@ RUN case "${BUILD_ARCH}" in \
     CGO_ENABLED=0 GOOS=linux GOARCH="${GOARCH}" GOARM="${GOARM}" \
     go build \
       -ldflags="-s -w \
-        -X beacon/internal/version.Version=v0.5.2 \
+        -X beacon/internal/version.Version=v0.5.4 \
         -X beacon/internal/cloud.DefaultBeaconInfraAPIURL=https://beaconinfra.dev/api" \
       -o /beacon ./cmd/beacon
 
@@ -32,7 +32,7 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.5.3" \
+  io.hass.version="0.5.4" \
   io.hass.type="addon" \
   io.hass.arch="aarch64|armv7|amd64"
 
