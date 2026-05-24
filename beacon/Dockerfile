@@ -32,7 +32,7 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.5.2" \
+  io.hass.version="0.5.3" \
   io.hass.type="addon" \
   io.hass.arch="aarch64|armv7|amd64"
 
