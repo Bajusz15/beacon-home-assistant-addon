@@ -24,7 +24,7 @@ RUN case "${BUILD_ARCH}" in \
     CGO_ENABLED=0 GOOS=linux GOARCH="${GOARCH}" GOARM="${GOARM}" \
     go build \
       -ldflags="-s -w \
-        -X beacon/internal/version.Version=v0.5.4 \
+        -X beacon/internal/version.Version=v0.5.5 \
         -X beacon/internal/cloud.DefaultBeaconInfraAPIURL=https://beaconinfra.dev/api" \
       -o /beacon ./cmd/beacon
 
@@ -32,7 +32,7 @@ RUN case "${BUILD_ARCH}" in \
 FROM ${BUILD_FROM}
 
 LABEL \
-  io.hass.version="0.5.4" \
+  io.hass.version="0.5.5" \
   io.hass.type="addon" \
   io.hass.arch="aarch64|armv7|amd64"
 

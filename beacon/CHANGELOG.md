@@ -1,3 +1,9 @@
+## 0.5.5
+
+- Keep building Beacon from `main` while Home Assistant tunnel fixes are iterating quickly.
+- Include the latest Beacon control-channel fix for resolving devices by cached device ID.
+- Refresh the Home Assistant add-on metadata so Supervisor detects a new update.
+
 ## 0.5.4
 
 - Build Beacon from the current `main` branch so the add-on includes upstream tunnel support.
