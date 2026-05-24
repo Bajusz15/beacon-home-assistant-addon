@@ -122,4 +122,6 @@ fi
 # ── Start Beacon master ──────────────────────────────────────────────────────
 bashio::log.info "Starting Beacon master (device: ${DEVICE_NAME}, cloud: $([ -n "${API_KEY}" ] && echo "enabled" || echo "offline"), tunnel_ha: ${TUNNEL_HA})"
 
-exec beacon master
+# Home Assistant Supervisor expects the add-on's main process to stay attached.
+# Beacon's default start mode daemonizes, which makes s6 restart this script.
+exec beacon master --foreground
