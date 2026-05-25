@@ -21,10 +21,10 @@ the Home Assistant device sends its first heartbeat.
 
 ### Manual setup
 
-1. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**
-2. Click the **...** menu (top right) > **Repositories**
+1. In Home Assistant, go to **Settings** > **Apps** > **Install Apps**
+2. Click the **...** menu in the right upper corner and select **Repositories**
 3. Add: `https://github.com/Bajusz15/beacon-home-assistant-addon`
-4. Find **Beacon** in the store and click **Install**
+4. Find **Beacon** and click **Install**
 5. Configure options (see below), then click **Start**
 
 ## Configuration Options
@@ -159,6 +159,21 @@ tunnels:
 ```
 
 Toggling the option back to `false` does **not** remove the entry — the add-on only adds, never deletes, so you can freely edit the file afterwards.
+
+### Home Assistant OS reverse-proxy trust
+
+Home Assistant rejects proxied requests unless it trusts the proxy source. Add or merge this block in `/config/configuration.yaml`, then restart Home Assistant Core:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.0.0/16
+    - 172.16.0.0/12
+    - 127.0.0.1
+```
+
+Without this, the Beacon tunnel can connect successfully, but Home Assistant may return `400 Bad Request` because it rejects the forwarded proxy headers.
 
 ### Defining tunnels manually
 

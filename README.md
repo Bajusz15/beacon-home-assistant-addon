@@ -21,17 +21,36 @@ URL, and watches for the first heartbeat after you start the add-on.
 
 ### Manual setup
 
-1. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**
-2. Click **...** (top right) > **Repositories**
+1. In Home Assistant, go to **Settings** > **Apps** > **Install Apps**
+2. Click the **...** menu in the right upper corner and select **Repositories**
 3. Add this repository URL:
    ```
    https://github.com/Bajusz15/beacon-home-assistant-addon
    ```
-4. Find **Beacon** in the store and click **Install**
+4. Find **Beacon** and click **Install**
 5. Configure your options and click **Start**
 
 For cloud mode, paste the full BeaconInfra API key into `api_key`. To expose
 Home Assistant remotely through BeaconInfra, enable `tunnel_home_assistant`.
+
+### Home Assistant OS proxy trust
+
+When `tunnel_home_assistant` is enabled, Beacon forwards browser requests to
+Home Assistant Core through the add-on network. Home Assistant must trust those
+reverse-proxy headers. Add or merge this in `/config/configuration.yaml`, then
+restart Home Assistant Core:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.0.0/16
+    - 172.16.0.0/12
+    - 127.0.0.1
+```
+
+Without this, the tunnel can connect but Home Assistant may return
+`400 Bad Request` for proxied requests.
 
 ## Configuration
 
