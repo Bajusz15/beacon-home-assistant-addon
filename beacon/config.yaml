@@ -1,5 +1,5 @@
 name: "Beacon"
-version: "0.5.5"
+version: "0.5.6"
 slug: "beacon"
 description: "Lightweight monitoring, alerting, and secure remote access agent for Home Assistant. Optional BeaconInfra cloud for multi-device dashboard and tunnel."
 url: "https://beaconinfra.dev"
@@ -22,6 +22,7 @@ options:
   heartbeat_interval: 30
   metrics_port: 9100
   tunnel_home_assistant: false
+  remote_access_passphrase: ""
   log_level: "info"
 
 schema:
@@ -30,4 +31,5 @@ schema:
   heartbeat_interval: "int(10,300)?"
   metrics_port: port?
   tunnel_home_assistant: bool?
+  remote_access_passphrase: password?
   log_level: "list(debug|info|warn|error)?"

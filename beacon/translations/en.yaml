@@ -24,6 +24,13 @@ configuration:
     description: >-
       When enabled, Beacon adds a secure BeaconInfra tunnel to Home Assistant
       Core at http://homeassistant:8123. Requires an API key.
+  remote_access_passphrase:
+    name: Remote Access Passphrase
+    description: >-
+      Optional second factor for remote access. When set, remote terminal and
+      tunnel sessions require this passphrase, verified on this device — the
+      BeaconInfra cloud only relays the challenge and never sees the passphrase.
+      Tunnels do not auto-start until unlocked. Leave empty to disable the gate.
   log_level:
     name: Log Level
     description: >-

@@ -8,6 +8,7 @@ API_KEY=$(bashio::config 'api_key')
 HEARTBEAT_INTERVAL=$(bashio::config 'heartbeat_interval')
 METRICS_PORT=$(bashio::config 'metrics_port')
 TUNNEL_HA=$(bashio::config 'tunnel_home_assistant')
+REMOTE_ACCESS_PASSPHRASE=$(bashio::config 'remote_access_passphrase')
 LOG_LEVEL=$(bashio::config 'log_level')
 
 # Fallback defaults
@@ -122,8 +123,24 @@ checks:
 EOF
 fi
 
+# ── Remote-access passphrase gate ───────────────────────────────────────────
+# When set, remote terminal AND tunnel sessions require this device-verified
+# passphrase: the agent will not auto-start tunnels and will refuse to open a
+# session without a valid unlock (verified locally; the cloud only relays the
+# challenge). Applied on every start so the add-on option stays authoritative —
+# set it to enable the gate, clear it to disable. Stored under BEACON_HOME
+# (/data), so it persists across restarts.
+if [ -n "${REMOTE_ACCESS_PASSPHRASE}" ]; then
+  bashio::log.info "Remote-access passphrase set: terminal and tunnel sessions are gated"
+  beacon remote-access set-passphrase --passphrase "${REMOTE_ACCESS_PASSPHRASE}"
+else
+  # No passphrase configured in options — ensure the gate is off (no-op if it
+  # was never set). 'clear' exits 0 when nothing is configured.
+  beacon remote-access clear >/dev/null 2>&1 || true
+fi
+
 # ── Start Beacon master ──────────────────────────────────────────────────────
-bashio::log.info "Starting Beacon master (device: ${DEVICE_NAME}, cloud: $([ -n "${API_KEY}" ] && echo "enabled" || echo "offline"), tunnel_ha: ${TUNNEL_HA})"
+bashio::log.info "Starting Beacon master (device: ${DEVICE_NAME}, cloud: $([ -n "${API_KEY}" ] && echo "enabled" || echo "offline"), tunnel_ha: ${TUNNEL_HA}, remote_access_gate: $([ -n "${REMOTE_ACCESS_PASSPHRASE}" ] && echo "on" || echo "off"))"
 
 # Home Assistant Supervisor expects the add-on's main process to stay attached.
 # Beacon's default start mode daemonizes, which makes s6 restart this script.

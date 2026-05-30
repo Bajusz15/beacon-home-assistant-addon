@@ -1,3 +1,7 @@
+## 0.5.6
+
+- Add a `remote_access_passphrase` option. When set, remote terminal and tunnel sessions require a device-verified passphrase; tunnels no longer auto-start until unlocked. The cloud only relays the challenge and never sees the passphrase.
+
 ## 0.5.5
 
 - Keep building Beacon from `main` while Home Assistant tunnel fixes are iterating quickly.
