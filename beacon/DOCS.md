@@ -36,6 +36,7 @@ the Home Assistant device sends its first heartbeat.
 | `heartbeat_interval` | integer | `30` | Seconds between cloud heartbeats (10-300). Only used when API key is set |
 | `metrics_port` | port | `9100` | Port for the local dashboard and metrics API |
 | `tunnel_home_assistant` | bool | `false` | When `true`, auto-add a BeaconInfra tunnel entry pointing at HA Core (`http://homeassistant:8123`). Requires an `api_key`. See [Tunnel / Remote Access](#tunnel--remote-access). |
+| `remote_access_passphrase` | password | _(empty)_ | Optional second factor. When set, remote terminal and tunnel sessions require this passphrase, verified on this device. Tunnels do not auto-start until unlocked. Leave empty to disable. See [Securing remote access](#securing-remote-access). |
 | `log_level` | list | `info` | Log verbosity: `debug`, `info`, `warn`, or `error` |
 
 ## Accessing the Dashboard
@@ -159,6 +160,20 @@ tunnels:
 ```
 
 Toggling the option back to `false` does **not** remove the entry — the add-on only adds, never deletes, so you can freely edit the file afterwards.
+
+### Securing remote access
+
+Remote terminal and tunnel sessions are reached through the BeaconInfra relay, gated by your account login. For a second factor that does **not** trust the cloud at all, set the **`remote_access_passphrase`** option.
+
+When it is set:
+
+- Remote terminal and tunnel sessions require the passphrase before they open.
+- The passphrase is verified **on this device** — BeaconInfra only relays the challenge and never sees the passphrase or a reusable proof, so a compromised cloud cannot open a session.
+- **Tunnels do not auto-start.** Each tunnel comes up only after an unlock, and grants are cleared on restart (fail-closed) — so a restart requires unlocking again.
+
+To unlock, open the device in the BeaconInfra dashboard and enter the passphrase when prompted; the tunnel/terminal then connects.
+
+The passphrase you type into the add-on options is stored on this device (under `/data`) and applied on every start. Leave the option empty to turn the gate off.
 
 ### Home Assistant OS reverse-proxy trust
 
