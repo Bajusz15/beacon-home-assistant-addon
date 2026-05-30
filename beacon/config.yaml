@@ -1,7 +1,7 @@
 name: "Beacon"
 version: "0.5.6"
 slug: "beacon"
-description: "Lightweight monitoring, alerting, and secure remote access agent for Home Assistant. Optional BeaconInfra cloud for multi-device dashboard and tunnel."
+description: "Open-source agent for secure remote access, monitoring, and deploys across home-lab and self-hosted machines — Raspberry Pi, N100, or any Linux server. Open web based TTY or tunnel to Home Assistant and other local services, no open ports."
 url: "https://beaconinfra.dev"
 arch:
   - aarch64
